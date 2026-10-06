@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="th">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>สมุดบันทึกงาน | Student Planner</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@400;500;600;700;800&family=Nunito+Sans:wght@400;600;700;800&family=Sarabun:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="additions.css" />
+    <link rel="stylesheet" href="fonts.css" />
+  </head>
+  <body>
+    <section id="loginScreen" class="login-screen" aria-label="เข้าสู่ระบบ">
+      <form id="loginForm" class="login-card">
+        <div class="login-logo-wrap"><img src="school-logo.png" alt="ตราโรงเรียนพยุห์วิทยา" class="login-logo" /></div>
+        <p class="login-label">LOG IN</p>
+        <h2>เข้าสู่ระบบสมุดบันทึกงาน</h2>
+        <p>กรอกชื่อและรหัสนักเรียนเพื่อเข้าใช้งาน</p>
+        <label>ชื่อ - นามสกุล<input id="loginName" required placeholder="เช่น สมชาย ใจดี" autocomplete="name" /></label>
+        <label>รหัสนักเรียน (5 หลัก)<input id="loginStudentId" required inputmode="numeric" pattern="[0-9]{5}" minlength="5" maxlength="5" placeholder="เช่น 12345" autocomplete="username" title="กรุณากรอกรหัสนักเรียนเป็นตัวเลข 5 หลัก" /></label>
+        <label class="remember"><input id="rememberDevice" type="checkbox" checked /> <span>จดจำฉันไว้ในเครื่องนี้</span></label>
+        <button class="login-submit" type="submit">เข้าสู่ระบบ <span>→</span></button>
+      </form>
+    </section>
+    <div class="app-shell">
+      <aside class="sidebar">
+        <div class="brand">
+          <div class="logo-placeholder"><img src="school-logo.png" alt="ตราโรงเรียนพยุห์วิทยา" /></div>
+          <div><p class="eyebrow">STUDENT PLANNER</p><h1>สมุดบันทึกงาน</h1></div>
+        </div>
+        <nav class="nav-menu" aria-label="เมนูหลัก">
+          <button class="nav-link active" data-view="assignments"><span>▣</span> งานค้าง <i>›</i></button>
+          <button class="nav-link" data-view="schedule"><span>▦</span> ตารางเรียน <i>›</i></button>
+        </nav>
+        <div class="student-card">
+          <div class="avatar" id="profileAvatar">Y</div>
+          <div><strong>ยูกะ</strong></div>
+          <div class="student-actions"><button id="editStudent" class="icon-button" aria-label="แก้ไขข้อมูลนักเรียน">⚙</button><button id="logoutBtn" class="logout-button" aria-label="ออกจากระบบ">↪</button></div>
+        </div>
+      </aside>
+
+      <main>
+        <header class="topbar">
+          <div class="mobile-brand"><span class="mini-logo"><img src="school-logo.png" alt="ตราโรงเรียน" /></span><strong>สมุดบันทึกงาน</strong></div>
+          <div class="date-chip" id="todayDate"></div>
+          <button id="enableNotifications" class="notification-button" aria-label="เปิดการแจ้งเตือน">♧ <span>เปิดแจ้งเตือน</span><b></b></button>
+        </header>
+
+        <section id="assignmentsView" class="page-view">
+          <div class="hero-row">
+            <div><p class="eyebrow orange">YOUR SCHOOL LIFE, ORGANIZED</p><h2>สวัสดี, <span id="studentGreeting">ยูกะ</span> <span class="wave">👋</span></h2><p class="subtext">จัดการงานและการบ้านของคุณให้เป็นเรื่องง่าย</p></div>
+            <div class="student-id"><span>เลขประจำตัวนักเรียน</span><strong id="studentId">-</strong></div>
+          </div>
+          <div class="stats-grid">
+            <article class="stat-card overdue"><span class="stat-icon">!</span><div><strong id="overdueCount">0</strong><p>เลยกำหนด</p></div></article>
+            <article class="stat-card pending"><span class="stat-icon">□</span><div><strong id="pendingCount">0</strong><p>งานที่ค้าง</p></div></article>
+            <article class="stat-card progress"><span class="stat-icon">◌</span><div><strong id="progressCount">0</strong><p>กำลังทำ</p></div></article>
+            <article class="stat-card done"><span class="stat-icon">✓</span><div><strong id="doneCount">0</strong><p>เสร็จแล้ว</p></div></article>
+          </div>
+          <section class="panel">
+            <div class="panel-heading"><div><h3>รายการงานของฉัน</h3><p>ติดตามทุกงานสำคัญได้ในที่เดียว</p></div><span id="taskTotal" class="total-pill">0 รายการ</span></div>
+            <div class="progress-overview"><div class="progress-copy"><div><strong>ความคืบหน้าของงาน</strong><span id="progressText">ยังไม่มีงาน</span></div><b id="progressPercent">0%</b></div><div class="linear-progress" role="progressbar" aria-label="ความคืบหน้าของงาน"><span id="progressFill"></span></div><div class="progress-summary"><span><i class="done-dot"></i> เสร็จแล้ว <b id="progressDone">0</b></span><span><i class="open-dot"></i> เหลือ <b id="progressRemaining">0</b></span></div></div>
+            <div class="filter-action-bar">
+              <div class="filters" role="tablist">
+                <button class="filter active" data-filter="open">ยังไม่เสร็จ</button><button class="filter" data-filter="mine">งานของฉัน</button><button class="filter" data-filter="overdue">เลยกำหนด</button><button class="filter" data-filter="done">เสร็จแล้ว</button><button class="filter" data-filter="all">ทั้งหมด</button>
+              </div>
+              <div class="actions"><label class="select-wrap"><select id="subjectFilter"><option value="all">ทุกวิชา</option></select></label><button id="refreshBtn" class="secondary-btn">↻ รีเฟรช</button><button id="addTaskBtn" class="primary-btn">＋ เพิ่มงาน</button></div>
+            </div>
+            <div id="taskList" class="task-list"></div>
+            <div id="emptyState" class="empty-state" hidden><span>✓</span><h3>ยังไม่มีงานในรายการนี้</h3><p>เพิ่มงานใหม่เพื่อเริ่มวางแผนได้เลย</p></div>
+          </section>
+        </section>
+
+        <section id="scheduleView" class="page-view" hidden>
+          <div class="hero-row"><div><p class="eyebrow orange">WEEKLY CLASS SCHEDULE</p><h2>ตารางเรียน</h2><p class="subtext">ตารางเรียนประจำสัปดาห์ของคุณ</p></div></div>
+          <section class="panel schedule-panel"><div class="panel-heading"><div><h3>วันจันทร์ - วันศุกร์</h3><p>เวลาเรียนปกติ 08.30 - 16.20 น.</p></div></div><div class="schedule-scroll"><table id="scheduleTable"></table></div></section>
+          <div class="legend"><span><i class="class-dot"></i> รายวิชา</span><span><i class="break-dot"></i> เวลาพัก</span></div>
+        </section>
+      </main>
+    </div>
+
+    <dialog id="taskDialog"><form id="taskForm" method="dialog"><div class="modal-header"><div><p class="eyebrow orange">ASSIGNMENT</p><h3 id="dialogTitle">เพิ่มงานใหม่</h3></div><button type="button" class="close" data-close>×</button></div><input type="hidden" id="taskId" /><div class="form-grid"><label>ชื่องาน<input id="title" required placeholder="เช่น แบบฝึกหัดบทที่ 3" /></label><label>วิชา<select id="subject" required></select></label><label>วันกำหนดส่ง<input id="dueDate" type="date" required /></label><label>เวลาส่ง <small>(ไม่บังคับ)</small><input id="dueTime" type="time" /></label><label class="unknown-due wide"><input id="unknownDue" type="checkbox" /> <span>ยังไม่ทราบวันส่ง — บันทึกงานไว้ก่อน</span></label><label>สถานะ<select id="status"><option value="pending">งานที่ค้าง</option><option value="progress">กำลังทำ</option><option value="done">เสร็จแล้ว</option></select></label><label class="wide">รายละเอียดเพิ่มเติม<textarea id="note" placeholder="คำแนะนำ, สิ่งที่ต้องส่ง..." rows="3"></textarea></label></div><div class="modal-actions"><button type="button" class="secondary-btn" data-close>ยกเลิก</button><button class="primary-btn" id="saveTask">บันทึกงาน</button></div></form></dialog>
+    <dialog id="studentDialog"><form id="studentForm" method="dialog"><div class="modal-header"><h3>ข้อมูลนักเรียน</h3><button type="button" class="close" data-close>×</button></div><div class="form-grid"><label class="wide profile-upload">รูปโปรไฟล์ <span class="avatar-preview" id="avatarPreview">Y</span><input id="avatarInput" type="file" accept="image/png,image/jpeg,image/webp" /><small>รองรับ PNG, JPG หรือ WebP</small></label><label>ชื่อ-นามสกุล<input id="studentNameInput" required /></label><label>เลขประจำตัวนักเรียน (5 หลัก)<input id="studentIdInput" required inputmode="numeric" pattern="[0-9]{5}" minlength="5" maxlength="5" title="กรุณากรอกรหัสนักเรียนเป็นตัวเลข 5 หลัก" /></label><p id="lastLoginInfo" class="wide login-history-info"></p></div><div class="modal-actions"><button type="button" class="secondary-btn" data-close>ยกเลิก</button><button class="primary-btn">บันทึกข้อมูล</button></div></form></dialog>
+    <dialog id="confirmDialog" class="confirm-dialog"><form method="dialog"><div id="confirmIcon" class="confirm-icon">!</div><h3 id="confirmTitle">ยืนยันการดำเนินการ</h3><p id="confirmMessage"></p><div class="modal-actions"><button id="confirmCancel" type="button" class="secondary-btn">ยกเลิก</button><button id="confirmAccept" type="button" class="primary-btn">ยืนยัน</button></div></form></dialog>
+    <div id="pageLoader" class="page-loader" aria-label="กำลังโหลด"><img src="school-logo.png" alt="" /><span>กำลังเตรียมสมุดบันทึกงาน...</span></div>
+    <!-- เปิดใช้ Supabase หลังกรอกค่าใน supabase-config.js -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabase-config.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
